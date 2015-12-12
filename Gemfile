@@ -8,23 +8,18 @@ gem 'bnext_robot'
 
 gem 'activerecord'
 gem 'sinatra-activerecord'
-gem 'tux'
 gem 'hirb'
 gem 'hirb-unicode'
 
 gem 'httparty'
 
-gem 'sinatra-flash'
-gem 'slim'
-gem 'tilt'
+# gems requiring credentials for 3rd party services
+gem 'config_env'
+gem 'aws-sdk', '~> 2'     # DynamoDB (Dynamoid), SQS Message Queue
+gem 'dynamoid', '~> 1'
 
-group :development, :test do
-  gem 'sqlite3'
-  gem 'sqlite3_ar_regexp', '~> 2.1'
-end
-
-group :production do
-  gem 'pg'
+group :development do
+  gem 'tux'
 end
 
 group :test do
@@ -32,6 +27,4 @@ group :test do
   gem 'rack'
   gem 'rack-test'
   gem 'rake'
-  gem 'webmock'
-  gem 'vcr'
 end
