@@ -1,3 +1,4 @@
+config/config_env.rb
 # Mac DS_Store
 .DS_Store
 
