@@ -3,28 +3,12 @@ $KCODE = 'u' if RUBY_VERSION < '1.9'
 require_relative 'bnext_helpers'
 require_relative 'trend_helpers'
 
-
 ##
 # Simple web service to crawl Bnext webpages
+# - requires config:
+#   - create ENV vars AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_REGION
 class BnextDynamo < Sinatra::Base
   helpers BNextHelpers, TrendHelpers
-
-  configure do
-    set :session_secret, 'something'
-    set :api_ver, 'api/v1'
-  end
-
-  configure :development, :test do
-    set :api_server, 'http://localhost:9292'
-  end
-
-  configure :production do
-    set :api_server, 'http://trendcrawl.herokuapp.com'
-  end
-
-  configure :production, :development do
-    enable :logging
-  end
 
   helpers do
     def current_page?(path = ' ')
@@ -199,96 +183,6 @@ class BnextDynamo < Sinatra::Base
     end
   end
 
-  ######################################################################################
-  #                                                                                    #
-  #                                   WEB VIEWs                                        #
-  #                                                                                    #
-  ######################################################################################
-
-  # Web app views
-  app_get_root = lambda do
-    slim :home
-  end
-
-  app_get_feed = lambda do
-    @ranktype = params[:ranktype]
-    if @ranktype
-      redirect "/feed/#{@ranktype}"
-      return nil
-    end
-
-    slim :feed
-  end
-
-  app_get_feed_ranktype = lambda do
-    @ranktype = params[:ranktype]
-    @cat = params['cat'] if params.has_key? 'cat'
-    @page_no = params['page'] if params.has_key? 'page'
-    @rank = get_ranks(@ranktype, @cat, @page_no)
-
-    if @ranktype && @rank.nil?
-      flash[:notice] = 'no feed found' if @rank.nil?
-      redirect '/feed'
-      return nil
-    end
-
-    slim :feed
-  end
-
-  app_get_trend = lambda do
-    @action = :create
-    slim :trend
-  end
-
-  app_post_trend = lambda do
-    request_url = "#{settings.api_server}/#{settings.api_ver}/trend"
-    categories = params[:categories]
-    params_h = { categories: categories }
-
-    options = {
-      body: params_h.to_json,
-      headers: { 'Content-Type' => 'application/json' }
-    }
-
-    result = HTTParty.post(request_url, options)
-
-    if (result.code != 200)
-      flash[:notice] = 'Could not process your request'
-      redirect '/trend'
-      return nil
-    end
-
-    id = result.request.last_uri.path.split('/').last
-    session[:results] = result.to_json
-    session[:action] = :create
-    redirect "/trend/#{id}"
-  end
-
-  app_get_trend_id = lambda do
-    if session[:action] == :create
-      @results = JSON.parse(session[:results])
-    else
-      request_url = "#{settings.api_server}/#{settings.api_ver}/trend/#{params[:id]}"
-      options =  { headers: { 'Content-Type' => 'application/json' } }
-      @results = HTTParty.get(request_url, options)
-      if @results.code != 200
-        flash[:notice] = 'Cannot find record'
-        redirect '/trend'
-      end
-    end
-
-    @id = params[:id]
-    @action = :update
-    @categories = @results['categories']
-    slim :trend
-  end
-
-  app_delete_trend_id = lambda do
-    request_url = "#{settings.api_server}/#{settings.api_ver}/trend/#{params[:id]}"
-    HTTParty.delete(request_url)
-    flash[:notice] = 'record of trend deleted'
-    redirect '/trend'
-  end
 
   ######################################################################################
   #                                                                                    #
@@ -304,20 +198,8 @@ class BnextDynamo < Sinatra::Base
   get '/api/v1/article/:id/?', &get_article_id
   delete '/api/v1/article/:id/?', &delete_article
 
-  # useless functions
+  # unused functions
   get '/api/v1/:ranktype/?', &get_feed_ranktype
   get '/api/v1/trend/:id/?', &get_trend
   post '/api/v1/trend/?', &post_trend
   delete '/api/v1/trend/:id/?', &delete_trend
-
-
-  # Web App Views Routes
-  get '/?', &app_get_root
-  get '/feed/?', &app_get_feed
-  get '/feed/:ranktype/?', &app_get_feed_ranktype
-  get '/trend/?', &app_get_trend
-  post '/trend/?', &app_post_trend
-  get '/trend/:id/?', &app_get_trend_id
-  delete '/trend/:id/?', &app_delete_trend_id
-
-end
