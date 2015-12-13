@@ -1,7 +1,7 @@
 $KCODE = 'u' if RUBY_VERSION < '1.9'
 
-require_relative 'bnext_helpers'
-require_relative 'trend_helpers'
+require_relative 'bnext_helper'
+require_relative 'trend_helper'
 
 ##
 # Simple web service to crawl Bnext webpages
@@ -203,3 +203,4 @@ class BnextDynamo < Sinatra::Base
   get '/api/v1/trend/:id/?', &get_trend
   post '/api/v1/trend/?', &post_trend
   delete '/api/v1/trend/:id/?', &delete_trend
+end
