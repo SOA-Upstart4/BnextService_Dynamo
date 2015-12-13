@@ -3,7 +3,7 @@ require 'dynamoid'
 class Trend
   include Dynamoid::Document
   field :description, :string
-  field :categories, :text
+  field :categories, :set
 
   def self.destroy(id)
     find(id).destroy
