@@ -18,12 +18,24 @@ GEM
     ansi (1.5.0)
     arel (6.0.3)
     ast (2.1.0)
+    aws-sdk (2.2.5)
+      aws-sdk-resources (= 2.2.5)
+    aws-sdk-core (2.2.5)
+      jmespath (~> 1.0)
+    aws-sdk-resources (2.2.5)
+      aws-sdk-core (= 2.2.5)
     bnext_robot (0.1.7)
       oga
     bond (0.5.1)
     builder (3.2.2)
+    concurrent-ruby (0.9.2)
+    config_env (0.1.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
+    dynamoid (1.0.0)
+      activemodel (~> 4)
+      aws-sdk-resources (~> 2)
+      concurrent-ruby (~> 0.9)
     hashdiff (0.2.3)
     hirb (0.7.3)
     hirb-unicode (0.0.5)
@@ -33,13 +45,13 @@ GEM
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
+    jmespath (1.1.3)
     json (1.8.3)
     minitest (5.8.3)
     multi_xml (0.5.5)
     oga (1.3.1)
       ast
       ruby-ll (~> 2.1)
-    pg (0.18.4)
     puma (2.15.3)
     rack (1.6.4)
     rack-protection (1.5.3)
@@ -66,16 +78,6 @@ GEM
     sinatra-activerecord (2.0.9)
       activerecord (>= 3.2)
       sinatra (~> 1.0)
-    sinatra-flash (0.3.0)
-      sinatra (>= 1.0.0)
-    slim (3.0.6)
-      temple (~> 0.7.3)
-      tilt (>= 1.3.3, < 2.1)
-    sqlite3 (1.3.11)
-    sqlite3_ar_regexp (2.1.0)
-      activerecord (>= 3.2, < 5)
-      sqlite3
-    temple (0.7.6)
     thread_safe (0.3.5)
     tilt (2.0.1)
     tux (0.3.0)
@@ -97,24 +99,21 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  aws-sdk (~> 2)
   bnext_robot
+  config_env
+  dynamoid (~> 1)
   hirb
   hirb-unicode
   httparty
   json
   minitest
-  pg
   puma
   rack
   rack-test
   rake
   sinatra
   sinatra-activerecord
-  sinatra-flash
-  slim
-  sqlite3
-  sqlite3_ar_regexp (~> 2.1)
-  tilt
   tux
   vcr
   webmock
