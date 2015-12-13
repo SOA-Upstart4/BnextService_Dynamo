@@ -1,4 +1,3 @@
-Dir.glob('./{config,models,services,controllers}/*.rb').each { |file| require file }
 require 'rake/testtask'
 require 'config_env/rake_tasks'
 
