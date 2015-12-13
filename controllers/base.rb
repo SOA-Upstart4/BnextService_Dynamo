@@ -24,9 +24,6 @@ class BnextDynamo < Sinatra::Base
     enable :logging
   end
 
-
-
-
   before do
     @HOST_WITH_PORT = request.host_with_port
   end

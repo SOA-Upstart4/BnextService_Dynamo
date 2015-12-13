@@ -1,6 +1,6 @@
 ENV['RACK_ENV'] = 'test'
 
-Dir.glob('./{models,helpers,controllers}/*.rb').each { |file| require file }
+Dir.glob('./{config,models,services,controllers}/*.rb').each { |file| require file }
 require 'minitest/autorun'
 require 'rack/test'
 require 'vcr'
@@ -9,7 +9,7 @@ require 'webmock/minitest'
 include Rack::Test::Methods
 
 def app
-  ApplicationController
+  BnextDynamo
 end
 
 def random_str(n)
