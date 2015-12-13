@@ -14,7 +14,7 @@ gem 'hirb-unicode'
 gem 'httparty'
 
 # gems requiring credentials for 3rd party services
-gem 'config_env' 
+gem 'config_env'
 gem 'aws-sdk', '~> 2'     # DynamoDB (Dynamoid), SQS Message Queue
 gem 'dynamoid', '~> 1'
 
@@ -27,4 +27,6 @@ group :test do
   gem 'rack'
   gem 'rack-test'
   gem 'rake'
+  gem 'webmock'
+  gem 'vcr'
 end
