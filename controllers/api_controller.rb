@@ -1,24 +1,15 @@
 $KCODE = 'u' if RUBY_VERSION < '1.9'
 
-require 'sinatra/base'
-require 'sinatra/flash'
-require 'httparty'
-require 'hirb'
-require 'slim'
+require_relative 'bnext_helpers'
+require_relative 'trend_helpers'
+
 
 ##
 # Simple web service to crawl Bnext webpages
-class ApplicationController < Sinatra::Base
+class BnextDynamo < Sinatra::Base
   helpers BNextHelpers, TrendHelpers
-  use Rack::Session::Pool
-  register Sinatra::Flash
-  use Rack::MethodOverride
-
-  set :views, File.expand_path('../../views', __FILE__)
-  set :public_folder, File.expand_path('../../public', __FILE__)
 
   configure do
-    Hirb.enable
     set :session_secret, 'something'
     set :api_ver, 'api/v1'
   end
