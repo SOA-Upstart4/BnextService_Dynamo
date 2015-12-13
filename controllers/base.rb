@@ -17,7 +17,7 @@ class BnextDynamo < Sinatra::Base
   end
 
   configure :production do
-    set :api_server, 'http://xxxx.herokuapp.com' ##temporary placeholder
+    set :api_server, 'http://bnext-dynamo.herokuapp.com' ##temporary placeholder
   end
 
   configure :production, :development do
