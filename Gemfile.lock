@@ -29,6 +29,8 @@ GEM
     bond (0.5.1)
     builder (3.2.2)
     concurrent-ruby (0.9.2)
+    concurrent-ruby-ext (0.9.2)
+      concurrent-ruby (~> 0.9.2)
     config_env (0.1.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
@@ -37,18 +39,10 @@ GEM
       aws-sdk-resources (~> 2)
       concurrent-ruby (~> 0.9)
     hashdiff (0.2.3)
-    hirb (0.7.3)
-    hirb-unicode (0.0.5)
-      hirb (~> 0.5)
-      unicode-display_width (~> 0.1.1)
-    httparty (0.13.7)
-      json (~> 1.8)
-      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jmespath (1.1.3)
     json (1.8.3)
     minitest (5.8.3)
-    multi_xml (0.5.5)
     oga (1.3.1)
       ast
       ruby-ll (~> 2.1)
@@ -87,7 +81,6 @@ GEM
       sinatra (>= 1.2.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    unicode-display_width (0.1.1)
     vcr (3.0.0)
     webmock (1.22.3)
       addressable (>= 2.3.6)
@@ -99,13 +92,12 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  activesupport
   aws-sdk (~> 2)
   bnext_robot
+  concurrent-ruby-ext
   config_env
   dynamoid (~> 1)
-  hirb
-  hirb-unicode
-  httparty
   json
   minitest
   puma
