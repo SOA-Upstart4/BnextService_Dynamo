@@ -7,11 +7,10 @@ gem 'json'
 gem 'bnext_robot'
 
 gem 'activerecord'
+gem 'concurrent-ruby-ext'
+gem 'activesupport'
 gem 'sinatra-activerecord'
-gem 'hirb'
-gem 'hirb-unicode'
 
-gem 'httparty'
 
 # gems requiring credentials for 3rd party services
 gem 'config_env'
