@@ -17,23 +17,26 @@ namespace :db do
   require_relative 'models/init.rb'
   require_relative 'config/init.rb'
 
-  desc "Create article table"
-  task :migrate do
-    begin
-      Article.create_table
-      puts 'Article table created'
-    rescue Aws::DynamoDB::Errors::ResourceInUseException => e
-      puts 'Article table already exists'
-    end
-  end
+  desc "Migrate all tables"
+  task :migrate => [:article, :trend]
+end
 
-  desc "Create trend table"
-  task :migrate do
-    begin
-      Trend.create_table
-      puts 'Trend table created'
-    rescue Aws::DynamoDB::Errors::ResourceInUseException => e
-      puts 'Trend table already exists'
-    end
+desc "Create article table"
+task :article do
+  begin
+    Article.create_table
+    puts 'Article table created'
+  rescue Aws::DynamoDB::Errors::ResourceInUseException => e
+    puts 'Article table already exists'
+  end
+end
+
+desc "Create trend table"
+task :trend do
+  begin
+    Trend.create_table
+    puts 'Trend table created'
+  rescue Aws::DynamoDB::Errors::ResourceInUseException => e
+    puts 'Trend table already exists'
   end
 end
