@@ -1,5 +1,6 @@
 require 'rake/testtask'
 require 'config_env/rake_tasks'
+require 'aws-sdk'
 
 task :config do
   ConfigEnv.path_to_config("#{__dir__}/config/config_env.rb")
