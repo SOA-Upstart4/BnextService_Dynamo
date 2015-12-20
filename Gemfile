@@ -11,6 +11,10 @@ gem 'concurrent-ruby-ext'
 gem 'activesupport'
 gem 'sinatra-activerecord'
 
+#Gem for database post usage
+gem 'pry'
+gem 'httparty'
+
 
 # gems requiring credentials for 3rd party services
 gem 'config_env'
