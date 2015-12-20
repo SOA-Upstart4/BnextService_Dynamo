@@ -106,12 +106,12 @@ class BnextDynamo < Sinatra::Base
       halt 400
     end
 
-    if Article.where("link LIKE ?", "%#{req['link']}%").length == 0
+    if Article.where(:link => "#{req['link']}").all.length == 0
       article = Article.new(
           title: req['title'],
           author: req['author'],
           date: req['date'],
-          tags: req['tags'].to_json,
+          tags: req['tags'],
           link: req['link']
         )
 
