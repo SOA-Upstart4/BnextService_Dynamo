@@ -5,7 +5,7 @@ class Article
   field :title, :string
   field :author, :string
   field :date, :string
-  field :tags, :set
+  field :tags, :string
   field :link, :string
 
   def self.destroy(id)
