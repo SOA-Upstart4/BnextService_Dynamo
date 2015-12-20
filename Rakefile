@@ -16,7 +16,7 @@ end
 #for `rake db:migrate`
 namespace :db do
   Dir.glob('./{config,models,services,controllers}/init.rb').each { |file| require file }
-
+  
   desc "Migrate all tables"
   task :migrate => [:article, :trend]
 end
