@@ -2,6 +2,7 @@ require 'dynamoid'
 
 class Article
   include Dynamoid::Document
+  table :name => :articles, :key => :id, :read_capacity => 3, :write_capacity => 3
   field :title, :string
   field :author, :string
   field :date, :string
