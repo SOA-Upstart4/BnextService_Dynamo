@@ -2,7 +2,7 @@ require 'dynamoid'
 
 class Trend
   include Dynamoid::Document
-  table :name => :trends, :key => :id, :read_capacity => 3, :write_capacity => 3
+  table :name => :trends, :key => :id, :read_capacity => 1, :write_capacity => 1
   field :description, :string
   field :categories, :set
 
