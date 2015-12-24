@@ -107,19 +107,33 @@ class BnextDynamo < Sinatra::Base
     end
 
     if Article.where(:link => "#{req['link']}").all.length == 0
+      ###Create article table
       article = Article.new(
           title: req['title'],
           author: req['author'],
           date: req['date'],
-          tags: req['tags'],
+          #tags: req['tags'],
           link: req['link']
         )
-
       if article.save
         status 201
       else
         halt 500, 'Error saving article request to the database'
       end
+
+      ###Association between tag table
+      req['tags'].each do |t|
+        word_tag = Tag.where(:word => "#{t}").first
+        unless word_tag
+          word_tag = Tag.new(:word => "#{t}").save
+        end
+        article.tags << word_tag
+      end
+
+      ###Count the keyword numbers
+      #found = Tag.find_by_word('Certain Keyword')
+      #found.count
+
     else
       status 208
     end
