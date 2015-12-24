@@ -1,4 +1,5 @@
 require 'dynamoid'
+require 'aws-sdk'
 
 Dynamoid.configure do |config|
   config.adapter = 'aws_sdk_v2'
