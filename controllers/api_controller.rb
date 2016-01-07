@@ -180,20 +180,17 @@ class BnextDynamo < Sinatra::Base
     status(article_cnt > 0 ? 200 : 404)
   end
 
-  ### GET /api/v1/article/filter?tags=&author=&title=
+   ### GET /api/v1/article/filter?tags=&author=&title=&date_from=&date_to=
   find_articles = lambda do
     content_type :json, 'charset' => 'utf-8'
     attrs = ['tags', 'title', 'author']
     begin
-      h = Hash.new
-      attrs.each do |x|
-        if params.has_key? x
-          Article.where("#{x} LIKE ?", "%#{params[x]}%").all.each do |article|
-            h[article.id] = article
-          end
-        end
-      end
-      h.values.to_json
+      found = Tag.find_by_word("#{params['tags']}") if params.has_key? 'tags'
+      found = found.articles.where(:title => "#{params['title']}") if params.has_key? 'title'
+      found = found.where(:author => "#{params['author']}") if params.has_key? 'author'
+      found = found.select {|article| article.date > "#{params['date_from']}" } if params.has_key? 'date_from'
+      found = found.select {|article| article.date < "#{params['date_to']}" } if params.has_key? 'date_to'
+      found.to_son
     rescue
       halt 400
     end
@@ -231,7 +228,7 @@ end
   delete '/api/v1/article/:id/?', &delete_article
 
   # Rubygem
-get '/api/rubygem/bnext_robot/get_feeds/?', &get_feeds
+  get '/api/rubygem/bnext_robot/get_feeds/?', &get_feeds
 
   # unused functions
   get '/api/v1/:ranktype/?', &get_feed_ranktype
