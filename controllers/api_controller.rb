@@ -36,7 +36,7 @@ class BnextDynamo < Sinatra::Base
     ROOT_MSG
   end
 
-  ###   GET /api/v1/:ranktype/
+  ###   GET /api/v1/:ranktype?cat=&page=
   get_feed_ranktype = lambda do
     content_type :json, 'charset' => 'utf-8'
     cat = 'tech'
@@ -132,10 +132,6 @@ class BnextDynamo < Sinatra::Base
         article.tags << word_tag
       end
 
-      ###Count the keyword numbers
-      #found = Tag.find_by_word('Certain Keyword')
-      #found.count
-
     else
       status 208
     end
@@ -183,7 +179,6 @@ class BnextDynamo < Sinatra::Base
    ### GET /api/v1/article/filter?tags=&author=&title=&date_from=&date_to=
   find_articles = lambda do
     content_type :json, 'charset' => 'utf-8'
-    attrs = ['tags', 'title', 'author']
     begin
       found = Tag.find_by_word("#{params['tags']}") if params.has_key? 'tags'
       found = found.articles.where(:title => "#{params['title']}") if params.has_key? 'title'
@@ -223,7 +218,7 @@ end
   get '/api/v1/?', &get_root
   post '/api/v1/article/?', &post_article
   get '/api/v1/article/?', &get_article_by_viewid
-  get '/api/v1/article/filter?', &find_articles
+  get '/api/v1/article/filter/?', &find_articles
   get '/api/v1/article/:id/?', &get_article_id
   delete '/api/v1/article/:id/?', &delete_article
 
