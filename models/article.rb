@@ -2,12 +2,10 @@ require 'dynamoid'
 
 class Article
   include Dynamoid::Document
-  table :name => :articles, :key => :id, :read_capacity => 3, :write_capacity => 3
+  table :name => :articles, :read_capacity => 3, :write_capacity => 3
   field :title, :string
   field :author, :string
   field :date, :string
-  #field :tags, :set
-  #has_many :tags
   has_and_belongs_to_many :tags
   field :link, :string
 
