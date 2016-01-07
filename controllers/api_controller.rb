@@ -2,6 +2,8 @@ $KCODE = 'u' if RUBY_VERSION < '1.9'
 
 require_relative 'bnext_helper'
 require_relative 'trend_helper'
+require 'bnext_robot'
+require 'httparty'
 
 ##
 # Simple web service to crawl Bnext webpages
@@ -197,6 +199,22 @@ class BnextDynamo < Sinatra::Base
     end
   end
 
+  ### GET /api/rubygem/bnext_robot/get_feeds?cat=&page_no=
+get_feeds = lambda do
+  content_type :json, 'charset' => 'utf-8'
+  if params.has_key? 'cat' and params.has_key? 'page_no'
+    begin
+      bot = BNextRobot.new
+      feeds = bot.get_feeds(params['cat'], params['page_no'])
+      feeds.map { |feed| feed.to_hash }.to_json
+    rescue
+      halt 400
+    end
+  else
+    ""
+  end
+end
+
 
   ######################################################################################
   #                                                                                    #
@@ -211,6 +229,9 @@ class BnextDynamo < Sinatra::Base
   get '/api/v1/article/filter?', &find_articles
   get '/api/v1/article/:id/?', &get_article_id
   delete '/api/v1/article/:id/?', &delete_article
+
+  # Rubygem
+get '/api/rubygem/bnext_robot/get_feeds/?', &get_feeds
 
   # unused functions
   get '/api/v1/:ranktype/?', &get_feed_ranktype
