@@ -185,7 +185,7 @@ class BnextDynamo < Sinatra::Base
       found = found.where(:author => "#{params['author']}") if params.has_key? 'author'
       found = found.select {|article| article.date > "#{params['date_from']}" } if params.has_key? 'date_from'
       found = found.select {|article| article.date < "#{params['date_to']}" } if params.has_key? 'date_to'
-      found.to_son
+      found.to_json
     rescue
       halt 400
     end
