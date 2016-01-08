@@ -181,8 +181,9 @@ class BnextDynamo < Sinatra::Base
     content_type :json, 'charset' => 'utf-8'
     begin
       found = Tag.find_by_word("#{params['tags']}") if params.has_key? 'tags'
-      found = found.articles.where(:title => "#{params['title']}") if params.has_key? 'title'
-      found = found.where(:author => "#{params['author']}") if params.has_key? 'author'
+      found = found.articles.each { |article| article } if found
+      found = found.select {|article| article.title == "#{params['title']}"} if params.has_key? 'title'
+      found = found.select {|article| article.author == "#{params['author']}"} if params.has_key? 'author'
       found = found.select {|article| article.date > "#{params['date_from']}" } if params.has_key? 'date_from'
       found = found.select {|article| article.date < "#{params['date_to']}" } if params.has_key? 'date_to'
       found.to_json
