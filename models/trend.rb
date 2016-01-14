@@ -4,7 +4,7 @@ class Trend
   include Dynamoid::Document
   table :name => :trends, :key => :id, :read_capacity => 1, :write_capacity => 1
   field :description, :string
-  field :categories, :set
+  field :categories, :serialized
 
   def self.destroy(id)
     find(id).destroy
